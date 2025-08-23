@@ -37,17 +37,75 @@ public class miniproject {
         String playerArmor = kbd.nextLine();
         P.setArmor2(playerArmor);
         System.out.println("=====================================");
-
-        kbd.close();
         P.ShowDetails();
-    Monster1 M1 = new Monster1();
-    M1.ShowDetails();
+
+        Monster M = new Monster1();
+        System.out.println("=========== BATTLE START ============");
+        System.out.println("Player Speed: " + P.getSPD() + " | Monster Speed: " + M.getSPD());
+
+        // ส่ง Scanner เข้าไปในเมธอด fight เพื่อให้รับค่า input ได้
+        Flight(P, M, kbd);
+    M.ShowDetails();
+    kbd.close();
 
 
 
     }
+    public static void Flight (Player player,Monster M,Scanner input){
+        
+        while (player.getHP() > 0 && M.getHP() > 0){
+
+            System.out.println("========== Your turn ================");
+            System.out.println("What will you do ?");
+            System.out.println("1. Attack");
+            System.out.println("Enter your choice (Choose the number): ");
+            int choice = input.nextInt();
+
+            switch (choice) {
+                case 1:
+                    PlayerAttack(player, M);
+                    break;
+                default:
+                    System.out.println("Invalid choice. You lose your turn.");
+                    return;
+            }
+            if (M.getHP() <= 0) {
+                break;
+            }
+            MonsterAttack(player, M);
+            
+            if (player.getHP() <= 0) {
+                break;
+            }
+
+
+        
+        }
+    }
+
+    
+
+    private  static void PlayerAttack(Player player , Monster M){
+        
+            int playerDamage = player.getATK() - M.getDEF();
+            if(playerDamage < 0) playerDamage = 0;
+
+            M.setHP(M.getHP() - playerDamage);
+            System.out.println(player.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage");
+
+        
+    }
+    private  static void MonsterAttack(Player player , Monster M){
+            int monsterDamage = M.getATK() - player.getDEF();
+            if(monsterDamage < 0) monsterDamage = 0;
+
+            player.setHP(player.getHP() - monsterDamage);
+            System.out.println(M.getNAME() + " attacks " + player.getNAME() + " " + monsterDamage + " Damage");
+
+        
+    }
 }
-abstract class Character{
+ class Character{
 
     protected String NAME;
     protected int HP ;
@@ -101,8 +159,6 @@ class Player extends Character{
         this.DEF = 50;
         this.ATK = 30;
         this.SPD = 20;
-                
-
         
     }
     
@@ -128,19 +184,16 @@ class Player extends Character{
         this.Weapon = Choose_Weapon; 
 
         if (Weapon.equalsIgnoreCase("Sword")) {
-            this.Weapon = Weapon;
+            
             this.ATK += 100;
         } 
         else if (Weapon.equalsIgnoreCase("Axe")) {
-            this.Weapon = Weapon;
-
+            
             this.ATK += 150;
         }
         else if (Weapon.equalsIgnoreCase("Knife")) {
-            this.Weapon = Weapon;
-
-            this.ATK += 50;
             
+            this.ATK += 50;
         }
         else{
             System.out.println("=====================================");
@@ -157,17 +210,14 @@ class Player extends Character{
         this.Armor = Choose_Armor;
         
         if (Armor.equalsIgnoreCase("Mid")) {
-            this.Armor = Armor;
 
             this.DEF += 100;
         } 
         else if (Armor.equalsIgnoreCase("High")) {
-            this.Armor = Armor;
 
             this.DEF += 150;
         }
         else if (Armor.equalsIgnoreCase("Low")) {
-            this.Armor = Armor;
 
             this.DEF += 50;
         }
@@ -194,12 +244,12 @@ class Player extends Character{
 
     }
 }
-class Monster1 extends Character{
+class Monster extends Character{
 
     private boolean ExtraSkill;
 
     
-    public Monster1() {
+    public Monster() {
         super.setName("Slime");
         this.HP = 100;
         this.DEF = 50;

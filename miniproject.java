@@ -2,8 +2,8 @@ public class miniproject {
     public static void main(String[] args) {
 
     Player P = new Player();
-    P.setWeapon("Sword");
-    P.setArmor("Mid");
+    P.setWeapon2("Sword");
+    P.setArmor2("Mid");
     
     P.ShowDetails();
     Monster1 M1 = new Monster1();
@@ -67,8 +67,6 @@ class Player extends Character{
         this.DEF = 50;
         this.ATK = 30;
         this.SPD = 20;
-        this.Weapon = Weapon;
-        this.Armor = Armor;
                 
 
         
@@ -92,6 +90,9 @@ class Player extends Character{
 
     
     public boolean setWeapon2(String Choose_Weapon){
+        
+        this.Weapon = Choose_Weapon; 
+
         if (Weapon.equalsIgnoreCase("Sword")) {
             this.Weapon = Weapon;
             this.ATK += 100;
@@ -110,6 +111,9 @@ class Player extends Character{
     }
 
     public boolean setArmor2 (String Choose_Armor){
+        
+        this.Armor = Choose_Armor;
+        
         if (Armor.equalsIgnoreCase("Mid")) {
             this.Armor = Armor;
 
@@ -134,8 +138,8 @@ class Player extends Character{
         System.out.println("HP : " + this.HP);
         System.out.println("ARMOR : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
-        System.out.println("Weapon : " + Weapon);
-        System.out.println("Armor : " +Armor);
+        System.out.println("Weapon : " + this.Weapon);
+        System.out.println("Armor : " +this.Armor);
         System.out.println("=====================================");
 
 

@@ -2,6 +2,9 @@ public class miniproject {
     public static void main(String[] args) {
 
     Player P = new Player();
+    P.setWeapon("Sword");
+    P.setArmor("Mid");
+    
     P.ShowDetails();
     Monster1 M1 = new Monster1();
     M1.ShowDetails();
@@ -14,7 +17,7 @@ abstract class Character{
 
     protected String NAME;
     protected int HP ;
-    protected int ARMOR;
+    protected int DEF;
     protected int ATK;
     protected int SPD;
     
@@ -24,8 +27,8 @@ abstract class Character{
     public int getHP(){
         return this.HP;
     }
-    public int getARMOR(){
-        return this.ARMOR;
+    public int getDEF(){
+        return this.DEF;
     }
     public int getATK(){
         return this.ATK;
@@ -41,8 +44,8 @@ abstract class Character{
     public void setHP(int HP){
         this.HP = HP;
     }
-    public void setArmor(int Amr){
-        this.ARMOR = Amr;
+    public void setDEF(int DEF){
+        this.DEF = DEF;
     }
     public void setATK(int Atk){
         this.ATK = Atk;
@@ -56,40 +59,87 @@ class Player extends Character{
 
     protected String Weapon;
     protected String Armor;
+    
 
     public Player() {
         super.setName("John");
         this.HP = 100;
-        this.ARMOR = 50;
+        this.DEF = 50;
         this.ATK = 30;
         this.SPD = 20;
+        this.Weapon = Weapon;
+        this.Armor = Armor;
+                
 
+        
+    }
+    
+    public String getWeapon(){
+        return this.Weapon;
     }
 
-   // public void EquipWeapon(String name , int atk , int speed){
-   //     Weapon w1 = new Weapon(name , atk , speed);
-     //   this.Weapon = w1;
-     //   int ina = this.weapon.getATK();
-     //   String n = this.weapon.getName();
-    //    super.setATK(super.getATK() + ina);
-     //   System.out.println("Equip : " + n);
-   // }
+    public void setWeapon(String Weapon){
+        this.Weapon = Weapon;
+    }
+    
+    public String getArmor(){
+        return this.Armor;
+    }
+
+    public void setArmor(String Armor){
+        this.Armor = Armor;
+    }
+
+    
+    public boolean setWeapon2(String Choose_Weapon){
+        if (Weapon.equalsIgnoreCase("Sword")) {
+            this.Weapon = Weapon;
+            this.ATK += 100;
+        } 
+        else if (Weapon.equalsIgnoreCase("Axe")) {
+            this.Weapon = Weapon;
+
+            this.ATK += 150;
+        }
+        else if (Weapon.equalsIgnoreCase("Knife")) {
+            this.Weapon = Weapon;
+
+            this.ATK += 50;
+        }
+        return true;
+    }
+
+    public boolean setArmor2 (String Choose_Armor){
+        if (Armor.equalsIgnoreCase("Mid")) {
+            this.Armor = Armor;
+
+            this.DEF += 100;
+        } 
+        else if (Armor.equalsIgnoreCase("High")) {
+            this.Armor = Armor;
+
+            this.DEF += 150;
+        }
+        else if (Armor.equalsIgnoreCase("Low")) {
+            this.Armor = Armor;
+
+            this.DEF += 50;
+        }
+        return true;
+    }
 
     public void ShowDetails(){
         System.out.println("=====================================");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
-        System.out.println("ARMOR : " + this.ARMOR);
+        System.out.println("ARMOR : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
-        System.out.println("Weapon : " + this.Weapon);
-        System.out.println("Armor : " + this.Armor);
+        System.out.println("Weapon : " + Weapon);
+        System.out.println("Armor : " +Armor);
         System.out.println("=====================================");
 
 
     }
-
-
-    
 }
 class Monster1 extends Character{
 
@@ -99,7 +149,7 @@ class Monster1 extends Character{
     public Monster1() {
         super.setName("Slime");
         this.HP = 100;
-        this.ARMOR = 50;
+        this.DEF = 50;
         this.ATK = 30;
         this.SPD = 20;
 
@@ -109,7 +159,7 @@ class Monster1 extends Character{
         System.out.println("=====================================");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
-        System.out.println("ARMOR : " + this.ARMOR);
+        System.out.println("ARMOR : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
         System.out.println("=====================================");
 

@@ -166,7 +166,6 @@ class Player extends Character{
     
 
     public Player() {
-        super.setName("John");
         this.HP = 100;
         this.DEF = 50;
         this.ATK = 30;
@@ -288,13 +287,10 @@ class Player extends Character{
     }
 }
 class Monster extends Character{
-
-    private boolean ExtraSkill;
-
     
     public Monster() {
         super.setName("Slime");
-        this.HP = 100;
+        this.HP = 1000;
         this.DEF = 50;
         this.ATK = 30;
         this.SPD = 20;

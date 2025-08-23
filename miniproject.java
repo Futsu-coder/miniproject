@@ -1,11 +1,45 @@
+import java.util.Scanner;
+
+
 public class miniproject {
     public static void main(String[] args) {
+        Scanner kbd = new Scanner(System.in);
 
-    Player P = new Player();
-    P.setWeapon2("Sword");
-    P.setArmor2("Mid");
-    
-    P.ShowDetails();
+        System.out.println("=====================================");
+        System.out.print("Enter Player Name: ");
+        System.out.println(" ");
+
+        String playerName = kbd.nextLine();
+
+        Player P = new Player();
+        P.setName(playerName);
+
+        System.out.print("Weapon You can choose : ");
+        System.out.println(" ");
+        System.out.println("1. Knife");
+        System.out.println("2. Sword");
+        System.out.println("3. Axe");
+        System.out.print("Choose Your Weapon : ");
+        System.out.println(" ");
+
+
+
+        String playerWeapon = kbd.nextLine();
+        P.setWeapon2(playerWeapon);
+
+        System.out.print("Armor You can Armor : ");
+        System.out.println(" ");
+        System.out.println("1. Low");
+        System.out.println("2. Mid");
+        System.out.println("3. High");
+        System.out.print("Choose Your Armor : ");
+        System.out.println(" ");
+        String playerArmor = kbd.nextLine();
+        P.setArmor2(playerArmor);
+        System.out.println("=====================================");
+
+        kbd.close();
+        P.ShowDetails();
     Monster1 M1 = new Monster1();
     M1.ShowDetails();
 
@@ -89,7 +123,7 @@ class Player extends Character{
     }
 
     
-    public boolean setWeapon2(String Choose_Weapon){
+    public void setWeapon2(String Choose_Weapon){
         
         this.Weapon = Choose_Weapon; 
 
@@ -106,11 +140,19 @@ class Player extends Character{
             this.Weapon = Weapon;
 
             this.ATK += 50;
+            
         }
-        return true;
+        else{
+            System.out.println("=====================================");
+            System.out.println("We don't have that weapon ");
+            System.out.println("Please try again");
+            System.out.println("=====================================");
+            System.exit(1);
+        }
+        
     }
 
-    public boolean setArmor2 (String Choose_Armor){
+    public void  setArmor2 (String Choose_Armor){
         
         this.Armor = Choose_Armor;
         
@@ -129,14 +171,21 @@ class Player extends Character{
 
             this.DEF += 50;
         }
-        return true;
+        else{
+            System.out.println("=====================================");
+            System.out.println("We don't have that Armor ");
+            System.out.println("Please try again");
+            System.out.println("=====================================");
+            System.exit(1);
+            
+        }
     }
 
     public void ShowDetails(){
         System.out.println("=====================================");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
-        System.out.println("ARMOR : " + this.DEF);
+        System.out.println("DEF : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
         System.out.println("Weapon : " + this.Weapon);
         System.out.println("Armor : " +this.Armor);
@@ -163,7 +212,7 @@ class Monster1 extends Character{
         System.out.println("=====================================");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
-        System.out.println("ARMOR : " + this.DEF);
+        System.out.println("DEF : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
         System.out.println("=====================================");
 

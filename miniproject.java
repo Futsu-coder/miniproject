@@ -39,7 +39,7 @@ public class miniproject {
         System.out.println("=====================================");
         P.ShowDetails();
 
-        Monster M = new Monster1();
+        Monster M = new Monster();
         System.out.println("=========== BATTLE START ============");
         System.out.println("Player Speed: " + P.getSPD() + " | Monster Speed: " + M.getSPD());
 

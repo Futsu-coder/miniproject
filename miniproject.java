@@ -152,7 +152,7 @@ class Player extends Character{
         
     }
 
-    public void  setArmor2 (String Choose_Armor){
+    public void setArmor2 (String Choose_Armor){
         
         this.Armor = Choose_Armor;
         

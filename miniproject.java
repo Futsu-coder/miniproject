@@ -16,9 +16,9 @@ public class miniproject {
 
         System.out.print("Weapon You can choose : ");
         System.out.println(" ");
-        System.out.println("1. Knife");
-        System.out.println("2. Sword");
-        System.out.println("3. Axe");
+        System.out.println("1. Sword");
+        System.out.println("2. Axe");
+        System.out.println("3. Knife");
         System.out.print("Choose Your Weapon : ");
         System.out.println(" ");
 
@@ -40,13 +40,13 @@ public class miniproject {
         P.ShowDetails();
 
         Monster M = new Monster();
+        M.ShowDetails();
         System.out.println("=========== BATTLE START ============");
         System.out.println("Player Speed: " + P.getSPD() + " | Monster Speed: " + M.getSPD());
 
-        // ส่ง Scanner เข้าไปในเมธอด fight เพื่อให้รับค่า input ได้
+
         Flight(P, M, kbd);
-    M.ShowDetails();
-    kbd.close();
+        kbd.close();
 
 
 
@@ -58,6 +58,7 @@ public class miniproject {
             System.out.println("========== Your turn ================");
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
+            System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
 
@@ -78,29 +79,40 @@ public class miniproject {
                 break;
             }
 
-
+            System.out.println("Current HP: " + player.getNAME() + " (" + player.getHP() + " HP) vs " + M.getNAME() + " (" + M.getHP() + " HP)");
+        }
+        System.out.println("=========== BATTLE END ==============");
         
+        if (player.getHP() <= 0) {
+            System.out.println(player.getNAME() + " has been defeated! " + M.getNAME() + " wins!");
+        } 
+        else{
+            System.out.println(player.getNAME() + " is victorious!");
+            System.out.println("=====================================");
+
         }
     }
 
-    
-
-    private  static void PlayerAttack(Player player , Monster M){
+    private static void PlayerAttack(Player player , Monster M){
         
             int playerDamage = player.getATK() - M.getDEF();
             if(playerDamage < 0) playerDamage = 0;
 
             M.setHP(M.getHP() - playerDamage);
+            System.out.println("=====================================");
+
             System.out.println(player.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage");
 
         
     }
-    private  static void MonsterAttack(Player player , Monster M){
+    private static void MonsterAttack(Player player , Monster M){
             int monsterDamage = M.getATK() - player.getDEF();
             if(monsterDamage < 0) monsterDamage = 0;
 
             player.setHP(player.getHP() - monsterDamage);
             System.out.println(M.getNAME() + " attacks " + player.getNAME() + " " + monsterDamage + " Damage");
+            System.out.println("=====================================");
+
 
         
     }
@@ -186,12 +198,27 @@ class Player extends Character{
         if (Weapon.equalsIgnoreCase("Sword")) {
             
             this.ATK += 100;
+        }
+        else if (Weapon.equalsIgnoreCase("1")) {
+
+            this.Weapon = "Sword";
+            this.ATK += 100;
         } 
         else if (Weapon.equalsIgnoreCase("Axe")) {
             
             this.ATK += 150;
         }
+        else if (Weapon.equalsIgnoreCase("2")) {
+
+            this.Weapon = "Axe";
+            this.ATK += 150;
+        }
         else if (Weapon.equalsIgnoreCase("Knife")) {
+
+            this.Weapon = "Knife";
+            this.ATK += 50;
+        }
+        else if (Weapon.equalsIgnoreCase("3")) {
             
             this.ATK += 50;
         }
@@ -209,17 +236,32 @@ class Player extends Character{
         
         this.Armor = Choose_Armor;
         
-        if (Armor.equalsIgnoreCase("Mid")) {
+        if (Armor.equalsIgnoreCase("Low")) {
+
+            this.DEF += 50;
+        }
+        else if (Armor.equalsIgnoreCase("1")) {
+
+            this.Armor = "Low";
+            this.DEF += 100;
+        }
+        else if (Armor.equalsIgnoreCase("Mid")) {
 
             this.DEF += 100;
-        } 
+        }
+        else if (Armor.equalsIgnoreCase("2")) {
+
+            this.Armor = "Mid";
+            this.DEF += 100;
+        }
         else if (Armor.equalsIgnoreCase("High")) {
 
             this.DEF += 150;
         }
-        else if (Armor.equalsIgnoreCase("Low")) {
+        else if (Armor.equalsIgnoreCase("3")) {
 
-            this.DEF += 50;
+            this.Armor = "High";
+            this.DEF += 150;
         }
         else{
             System.out.println("=====================================");
@@ -232,11 +274,12 @@ class Player extends Character{
     }
 
     public void ShowDetails(){
-        System.out.println("=====================================");
+        System.out.println("========== PLAYER INFORMATION =======");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
         System.out.println("DEF : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
+        System.out.println("SPD : " + this.SPD);    
         System.out.println("Weapon : " + this.Weapon);
         System.out.println("Armor : " +this.Armor);
         System.out.println("=====================================");
@@ -259,11 +302,12 @@ class Monster extends Character{
     }
 
     public void ShowDetails(){
-        System.out.println("=====================================");
+        System.out.println("========= MONSTER INFORMATION =======");
         System.out.println("Name : " + this.NAME);
         System.out.println("HP : " + this.HP);
         System.out.println("DEF : " + this.DEF);
         System.out.println("ATK : " + this.ATK);
+        System.out.println("SPD : " + this.SPD);    
         System.out.println("=====================================");
 
 

@@ -69,7 +69,11 @@ public class miniproject {
                     PlayerAttack(player, M);
                     break;
                 case 2:
-                    Playerblock(player, M);
+                        player.setIsBlocking(true);
+                        System.out.println("=====================================");
+                        System.out.println(player.getNAME() + " is blocking!");
+                        Playerblock(player,M);
+                        
                     break;
                 case 3:
                     Playerusepotion(player);
@@ -116,7 +120,6 @@ public class miniproject {
     private static void Playerblock(Player player , Monster M){
         
             double playerincreasedef = player.getDEF() * 0.5;
-            System.out.println("=====================================");
             System.out.println(player.getNAME() + " block " + M.getNAME() + "DEF UP " + playerincreasedef);
 
         
@@ -170,7 +173,7 @@ abstract class Character{
     private String  NAME;
     private int HP = 100;
     private int DEF = 50;
-    private int ATK = 30;
+    private int ATK = 160;
     private int SPD = 20;
     
     public String getNAME (){
@@ -220,9 +223,17 @@ class Player extends Character{
 
     private Weapon Weapon;
     private Armor Armor;
-    
+    private boolean isBlocking = false;
 
-    public Player() {        
+
+    public Player(Weapon Weapon, Armor Armor) {
+        super();
+        this.Weapon = Weapon;
+        this.Armor = Armor;
+    }
+
+    public Player() { 
+    
     } 
 
     public int getHP() { return super.getHP();}
@@ -232,9 +243,14 @@ class Player extends Character{
     public String getName() {return super.getNAME();}
 
     public String getWeapon(){
-        return this.Weapon.getName(); }
+        return this.Weapon.getName(); 
+    }
     public String getArmor(){
-        return this.Armor.getName(); }
+        return this.Armor.getName(); 
+    }
+        public boolean getIsBlocking() {
+        return this.isBlocking;
+    }
     
     private void setArmor(String name , int DEF){
         Armor na = new Armor(name , DEF);
@@ -292,6 +308,10 @@ class Player extends Character{
             
         }
     }
+    
+    public void setIsBlocking(boolean isBlocking) {
+        this.isBlocking = isBlocking;
+    }
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
@@ -305,6 +325,7 @@ class Player extends Character{
 }
 
 class Weapon{
+
     private String name;
     private int ATK;
     private int speed;
@@ -320,6 +341,7 @@ class Weapon{
 }
 
 class Armor{
+
     private String name; 
     private int DEF;
 
@@ -330,6 +352,26 @@ class Armor{
     public int getDEF(){return this.DEF;}
     public String getName(){return this.name;}
 }
+
+abstract class Potion{
+
+    private String name;
+    private int unit;
+
+    public Potion(String name,int unit) {
+        this.name = name;
+        this.unit = unit;
+    }
+
+    public String getname(){
+        return this.name;
+    }
+    public int getunit(){
+        return this.unit;
+    }
+        
+}
+
 
 class Monster extends Character{
     

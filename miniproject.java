@@ -59,6 +59,7 @@ public class miniproject {
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
             System.out.println("2. Block");
+            System.out.println("3. Potion (You Potion Current is : " + Potion + " ) ");
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
@@ -69,6 +70,9 @@ public class miniproject {
                     break;
                 case 2:
                     Playerblock(player, M);
+                    break;
+                case 3:
+                    Playerusepotion(player);
                     break;
                 default:
                     System.out.println("Invalid choice. You lose your turn.");
@@ -117,6 +121,38 @@ public class miniproject {
 
         
     }
+    
+    public static int Potion = 3; 
+
+    private static void Playerusepotion(Player player){
+
+        if (Potion == 0 ) {
+            System.out.println("=====================================");
+
+            System.out.println("You Potion Current is : " + Potion);
+            System.out.println("You Can't Use Potion");
+
+            System.out.println("=====================================");
+
+        } 
+        else if (Potion >= 1 ) {
+            player.setHP(player.getHP() + 100);
+            Potion --;
+
+            System.out.println("=====================================");
+
+            System.out.println("You Potion Current is : " + Potion);
+            System.out.println("You HP up " + 100 + " Point");
+
+            System.out.println("=====================================");
+
+        } 
+        else {
+            System.out.println("Error");
+
+        } 
+    }
+
     private static void MonsterAttack(Player player , Monster M){
             int monsterDamage = M.getATK() - player.getDEF();
             if(monsterDamage < 0) monsterDamage = 0;
@@ -286,7 +322,7 @@ class Weapon{
 class Armor{
     private String name; 
     private int DEF;
-    
+
     Armor(String name , int def){
         this.name = name ;
         this.DEF = def;

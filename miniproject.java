@@ -13,7 +13,9 @@ public class miniproject {
 
         Player P = new Player();
         P.setName(playerName);
+
         healpotion Heal = new healpotion(100);
+        Attackpotion ATKboost = new Attackpotion(50);
 
         System.out.print("Weapon You can choose : ");
         System.out.println(" ");
@@ -43,13 +45,13 @@ public class miniproject {
         System.out.println("=========== BATTLE START ============");
         System.out.println("Player Speed: " + P.getSPD() + " | Monster Speed: " + M.getSPD());
 
-        Flight(P, M, kbd , Heal);
+        Flight(P, M, kbd, Heal, ATKboost);
         kbd.close();
 
 
 
     }
-    public static void Flight (Player P,Monster M,Scanner input , healpotion Heal){
+    public static void Flight (Player P,Monster M,Scanner input , healpotion Heal ,Attackpotion ATKboost){
         
         while (P.getHP() > 0 && M.getHP() > 0){
 
@@ -58,6 +60,8 @@ public class miniproject {
             System.out.println("1. Attack");
             System.out.println("2. Block");
             System.out.println("3. Potion (You Potion Current is : " + P.gethealpotioncount() + " ) ");
+            System.out.println("4. Potion (You Potion Current is : " + P.getattackpotioncount() + " ) ");
+
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
@@ -72,16 +76,27 @@ public class miniproject {
                     P.block(P,M);
                     break;
                 case 3:
-                if (P.gethealpotioncount() > 0) {
-                    Heal.use(P);
-                    P.sethealpotioncount((P.gethealpotioncount() - 1));
-                } else {
-                    System.out.println("You don't have any potions left!");
-                }
-                break;
+                    if (P.gethealpotioncount() > 0) {
+                        Heal.use(P);
+                        P.sethealpotioncount((P.gethealpotioncount() - 1));
+                    } 
+                    else {
+                        System.out.println("You don't have any potions left!");
+                    }
+                    break;
+                case 4:
+                    if (P.getattackpotioncount() > 0) {
+                        ATKboost.use(P);
+                        P.setattackpotioncount(P.getattackpotioncount() - 1);
+                        P.ShowDetails();
+                    } 
+                    else {
+                        System.out.println("You don't have any potions left!");
+                    }
+                    break;
                 default:
                     System.out.println("Invalid choice. You lose your turn.");
-                    return;
+                    break;
             }
             if (M.getHP() <= 0) {
                 break;
@@ -168,9 +183,10 @@ class Player extends Character implements characterFunction{
     private Armor Armor;
     private boolean isBlocking = false;
     private int healpotioncount = 3 ;
+    private int attackpotioncount = 1 ;
     private int originalDef;
 
-    public Player(Weapon Weapon, Armor Armor ,int originalDef) {
+    public Player(Weapon Weapon, Armor Armor ,int originalDef ,int originalAtk) {
         super();
         this.Weapon = Weapon;
         this.Armor = Armor;
@@ -198,11 +214,14 @@ class Player extends Character implements characterFunction{
     public boolean getIsBlocking() {
         return this.isBlocking;
     }
+    public int getoriginalDef(){
+        return this.originalDef;
+    }
     public int gethealpotioncount(){
         return this.healpotioncount;
     }
-    public int getoriginalDef(){
-        return this.originalDef;
+    public int getattackpotioncount(){
+        return this.attackpotioncount;
     }
     
     private void setArmor(String name , int DEF){
@@ -265,9 +284,15 @@ class Player extends Character implements characterFunction{
     public void setIsBlocking(boolean isBlocking) {
         this.isBlocking = isBlocking;
     }
+
     public void sethealpotioncount(int healpotion){
         this.healpotioncount = healpotion;
     }
+
+    public void setattackpotioncount(int attackpotion){
+        this.attackpotioncount = attackpotion;
+    }
+
 
 
     @Override
@@ -285,6 +310,7 @@ class Player extends Character implements characterFunction{
         
         int playerDamage = P.getATK() - M.getDEF();
         if(playerDamage < 0) playerDamage = 0;
+
 
         M.setHP(M.getHP() - playerDamage);
         System.out.println(P.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage" + P.getDEF());
@@ -374,6 +400,29 @@ class healpotion extends Potion{
     @Override
     public void use(Player player){
         player.setHP(player.getHP()+this.heal);
+
+    }
+}
+
+class Attackpotion extends Potion{
+
+    private int Atkboost;
+
+
+    public Attackpotion(int Atkboost){
+        super("Attack Potion");
+        this.Atkboost = Atkboost;
+    }
+
+    public int setAtkboost(){
+        return this.Atkboost;
+    }
+
+    @Override
+    public void use(Player P){
+        P.setATK(P.getATK() + this.Atkboost);
+
+
 
     }
 }

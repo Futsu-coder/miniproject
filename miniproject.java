@@ -13,6 +13,7 @@ public class miniproject {
 
         Player P = new Player();
         P.setName(playerName);
+        healpotion Heal = new healpotion(100);
 
         System.out.print("Weapon You can choose : ");
         System.out.println(" ");
@@ -21,8 +22,6 @@ public class miniproject {
         System.out.println("3. Knife");
         System.out.print("Choose Your Weapon : ");
         System.out.println(" ");
-
-
 
         String playerWeapon = kbd.nextLine();
         P.equipWeapon(playerWeapon);
@@ -44,40 +43,42 @@ public class miniproject {
         System.out.println("=========== BATTLE START ============");
         System.out.println("Player Speed: " + P.getSPD() + " | Monster Speed: " + M.getSPD());
 
-
-        Flight(P, M, kbd);
+        Flight(P, M, kbd , Heal);
         kbd.close();
 
 
 
     }
-    public static void Flight (Player player,Monster M,Scanner input){
+    public static void Flight (Player P,Monster M,Scanner input , healpotion Heal){
         
-        while (player.getHP() > 0 && M.getHP() > 0){
+        while (P.getHP() > 0 && M.getHP() > 0){
 
             System.out.println("========== Your turn ================");
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
             System.out.println("2. Block");
-            System.out.println("3. Potion (You Potion Current is : " + Potion + " ) ");
+            System.out.println("3. Potion (You Potion Current is : " + P.gethealpotioncount() + " ) ");
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
 
             switch (choice) {
                 case 1:
-                    PlayerAttack(player, M);
+                    System.out.println("=====================================");
+                    System.out.println(P.getNAME() + " is Attacking!");
+                    P.Attack(P, M);
                     break;
                 case 2:
-                        player.setIsBlocking(true);
-                        System.out.println("=====================================");
-                        System.out.println(player.getNAME() + " is blocking!");
-                        Playerblock(player,M);
-                        
+                    P.block(P,M);
                     break;
                 case 3:
-                    Playerusepotion(player);
-                    break;
+                if (P.gethealpotioncount() > 0) {
+                    Heal.use(P);
+                    P.sethealpotioncount((P.gethealpotioncount() - 1));
+                } else {
+                    System.out.println("You don't have any potions left!");
+                }
+                break;
                 default:
                     System.out.println("Invalid choice. You lose your turn.");
                     return;
@@ -85,88 +86,30 @@ public class miniproject {
             if (M.getHP() <= 0) {
                 break;
             }
-            MonsterAttack(player, M);
+            M.Attack(P, M);
             
-            if (player.getHP() <= 0) {
+            if (P.getHP() <= 0) {
                 break;
             }
 
-            System.out.println("Current HP: " + player.getNAME() + " (" + player.getHP() + " HP) vs " + M.getNAME() + " (" + M.getHP() + " HP)");
+            System.out.println("Current HP: " + P.getNAME() + " (" + P.getHP() + " HP) vs " + M.getNAME() + " (" + M.getHP() + " HP)");
         }
         System.out.println("=========== BATTLE END ==============");
         
-        if (player.getHP() <= 0) {
-            System.out.println(player.getNAME() + " has been defeated! " + M.getNAME() + " wins!");
+        if (P.getHP() <= 0) {
+            System.out.println(P.getNAME() + " has been defeated! " + M.getNAME() + " wins!");
         } 
         else{
-            System.out.println(player.getNAME() + " is victorious!");
+            System.out.println(P.getNAME() + " is victorious!");
             System.out.println("=====================================");
 
         }
     }
 
-    private static void PlayerAttack(Player player , Monster M){
-        
-            int playerDamage = player.getATK() - M.getDEF();
-            if(playerDamage < 0) playerDamage = 0;
-
-            M.setHP(M.getHP() - playerDamage);
-            System.out.println("=====================================");
-
-            System.out.println(player.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage");
-
-        
-    }
-    private static void Playerblock(Player player , Monster M){
-        
-            double playerincreasedef = player.getDEF() * 0.5;
-            System.out.println(player.getNAME() + " block " + M.getNAME() + "DEF UP " + playerincreasedef);
-
-        
-    }
-    
-    public static int Potion = 3; 
-
-    private static void Playerusepotion(Player player){
-
-        if (Potion == 0 ) {
-            System.out.println("=====================================");
-
-            System.out.println("You Potion Current is : " + Potion);
-            System.out.println("You Can't Use Potion");
-
-            System.out.println("=====================================");
-
-        } 
-        else if (Potion >= 1 ) {
-            player.setHP(player.getHP() + 100);
-            Potion --;
-
-            System.out.println("=====================================");
-
-            System.out.println("You Potion Current is : " + Potion);
-            System.out.println("You HP up " + 100 + " Point");
-
-            System.out.println("=====================================");
-
-        } 
-        else {
-            System.out.println("Error");
-
-        } 
-    }
-
-    private static void MonsterAttack(Player player , Monster M){
-            int monsterDamage = M.getATK() - player.getDEF();
-            if(monsterDamage < 0) monsterDamage = 0;
-
-            player.setHP(player.getHP() - monsterDamage);
-            System.out.println(M.getNAME() + " attacks " + player.getNAME() + " " + monsterDamage + " Damage");
-            System.out.println("=====================================");
 
 
-        
-    }
+
+
 }
 abstract class Character{
 
@@ -219,22 +162,27 @@ abstract class Character{
 
 }
 
-class Player extends Character{
+class Player extends Character implements characterFunction{
 
     private Weapon Weapon;
     private Armor Armor;
     private boolean isBlocking = false;
+    private int healpotioncount;
+    private int originalDef;
 
-
-    public Player(Weapon Weapon, Armor Armor) {
+    public Player(Weapon Weapon, Armor Armor , int originalDef) {
         super();
         this.Weapon = Weapon;
         this.Armor = Armor;
+        this.healpotioncount = 3; 
+        this.originalDef = originalDef;
+
     }
 
-    public Player() { 
+    public Player() {
+    }
     
-    } 
+
 
     public int getHP() { return super.getHP();}
     public int getDEF() { return super.getDEF();}
@@ -248,8 +196,14 @@ class Player extends Character{
     public String getArmor(){
         return this.Armor.getName(); 
     }
-        public boolean getIsBlocking() {
+    public boolean getIsBlocking() {
         return this.isBlocking;
+    }
+    public int gethealpotioncount(){
+        return this.healpotioncount;
+    }
+    public int getoriginalDef(){
+        return this.originalDef;
     }
     
     private void setArmor(String name , int DEF){
@@ -312,7 +266,12 @@ class Player extends Character{
     public void setIsBlocking(boolean isBlocking) {
         this.isBlocking = isBlocking;
     }
+    public void sethealpotioncount(int healpotion){
+        this.healpotioncount = healpotion;
+    }
 
+
+    @Override
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
         super.ShowDetails();
@@ -321,6 +280,33 @@ class Player extends Character{
         System.out.println("=====================================");
 
 
+    }
+    @Override
+    public void Attack(Player P , Monster M){
+        
+        int playerDamage = P.getATK() - M.getDEF();
+        if(playerDamage < 0) playerDamage = 0;
+
+        M.setHP(M.getHP() - playerDamage);
+        System.out.println(P.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage" + P.getDEF());
+        super.ShowDetails();
+
+
+        
+    }
+    public void block(Player P , Monster M){
+
+        P.setIsBlocking(true);
+        System.out.println("=====================================");                
+        System.out.println(P.getNAME() + " is blocking!");
+        this.originalDef = P.getDEF(); 
+        double playerincreasedef = P.getDEF() * 0.5;
+        P.setDEF((int)(P.getDEF() + playerincreasedef));
+        System.out.println(P.getNAME() + " block " + M.getNAME() + " DEF UP " + playerincreasedef + " (DEF NOW " + P.getDEF() + ")");
+        super.ShowDetails();
+        P.setDEF(P.originalDef);
+
+        
     }
 }
 
@@ -353,27 +339,46 @@ class Armor{
     public String getName(){return this.name;}
 }
 
-abstract class Potion{
+
+abstract class Potion {
 
     private String name;
-    private int unit;
 
-    public Potion(String name,int unit) {
+    public Potion(String name) {
         this.name = name;
-        this.unit = unit;
     }
 
-    public String getname(){
+    public String getName() {
         return this.name;
     }
-    public int getunit(){
-        return this.unit;
+
+    public abstract void use(Player player);
+
+}
+
+class healpotion extends Potion{
+
+    private int heal;
+
+    public healpotion(int heal) {
+        super("Heal Potion");
+        this.heal = heal;
     }
-        
+
+    public int setheal(){
+        return this.heal;
+    }
+
+    @Override
+    public void use(Player player){
+        player.setHP(player.getHP()+this.heal);
+
+    }
 }
 
 
-class Monster extends Character{
+
+class Monster extends Character implements characterFunction{
     
     public Monster() {
         super.setName("Slime");
@@ -386,13 +391,36 @@ class Monster extends Character{
     public int getSPD() { return super.getSPD();}
     public String getName() {return super.getNAME();}
 
+    @Override
     public void ShowDetails(){
+
         System.out.println("========= MONSTER INFORMATION =======");
           super.ShowDetails();
         System.out.println("=====================================");
 
-
     }
-    
-}
+    @Override
+    public void Attack(Player P , Monster M){
+            
+            int monsterDamage = M.getATK() - P.getDEF();
+            if (P.getIsBlocking()) { 
+            monsterDamage -= P.getDEF() * 0.5; 
+            P.setIsBlocking(false);
+            }
+            if(monsterDamage < 0) monsterDamage = 0;
+            
 
+            P.setHP(P.getHP() - monsterDamage);
+            System.out.println(M.getNAME() + " attacks " + P.getNAME() + " " + monsterDamage + " Damage");
+            System.out.println("=====================================");
+
+        }
+        
+    }
+
+
+interface characterFunction {
+    void Attack(Player player , Monster M);
+    void ShowDetails();
+
+}

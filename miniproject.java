@@ -167,14 +167,13 @@ class Player extends Character implements characterFunction{
     private Weapon Weapon;
     private Armor Armor;
     private boolean isBlocking = false;
-    private int healpotioncount;
+    private int healpotioncount = 3 ;
     private int originalDef;
 
-    public Player(Weapon Weapon, Armor Armor , int originalDef) {
+    public Player(Weapon Weapon, Armor Armor ,int originalDef) {
         super();
         this.Weapon = Weapon;
         this.Armor = Armor;
-        this.healpotioncount = 3; 
         this.originalDef = originalDef;
 
     }
@@ -297,9 +296,12 @@ class Player extends Character implements characterFunction{
     public void block(Player P , Monster M){
 
         P.setIsBlocking(true);
+
         System.out.println("=====================================");                
         System.out.println(P.getNAME() + " is blocking!");
+        
         this.originalDef = P.getDEF(); 
+
         double playerincreasedef = P.getDEF() * 0.5;
         P.setDEF((int)(P.getDEF() + playerincreasedef));
         System.out.println(P.getNAME() + " block " + M.getNAME() + " DEF UP " + playerincreasedef + " (DEF NOW " + P.getDEF() + ")");
@@ -403,10 +405,12 @@ class Monster extends Character implements characterFunction{
     public void Attack(Player P , Monster M){
             
             int monsterDamage = M.getATK() - P.getDEF();
+            
             if (P.getIsBlocking()) { 
             monsterDamage -= P.getDEF() * 0.5; 
             P.setIsBlocking(false);
             }
+            
             if(monsterDamage < 0) monsterDamage = 0;
             
 

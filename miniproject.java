@@ -81,7 +81,7 @@ public class miniproject {
                         P.sethealpotioncount((P.gethealpotioncount() - 1));
                     } 
                     else {
-                        System.out.println("You don't have any potions left!");
+                        System.out.println("You don't have any healpotions left!");
                     }
                     break;
                 case 4:
@@ -91,7 +91,7 @@ public class miniproject {
                         P.ShowDetails();
                     } 
                     else {
-                        System.out.println("You don't have any potions left!");
+                        System.out.println("You don't have any attackpotions left!");
                     }
                     break;
                 default:
@@ -120,12 +120,8 @@ public class miniproject {
 
         }
     }
-
-
-
-
-
 }
+
 abstract class Character{
 
     private String  NAME;
@@ -149,7 +145,6 @@ abstract class Character{
     public int getSPD(){
         return this.SPD;
     }
-
 
     public void setName(String name){
         this.NAME = name;
@@ -196,14 +191,22 @@ class Player extends Character implements characterFunction{
 
     public Player() {
     }
-    
 
-
-    public int getHP() { return super.getHP();}
-    public int getDEF() { return super.getDEF();}
-    public int getATK() { return super.getATK();}
-    public int getSPD() { return super.getSPD();}
-    public String getName() {return super.getNAME();}
+    public int getHP() { 
+        return super.getHP();
+    }
+    public int getDEF() { 
+        return super.getDEF();
+    }
+    public int getATK() { 
+        return super.getATK();
+    }
+    public int getSPD() { 
+        return super.getSPD();
+    }
+    public String getName() {
+        return super.getNAME();
+    }
 
     public String getWeapon(){
         return this.Weapon.getName(); 
@@ -277,7 +280,6 @@ class Player extends Character implements characterFunction{
             System.out.println("Please try again");
             System.out.println("=====================================");
             System.exit(1);
-            
         }
     }
     
@@ -293,8 +295,6 @@ class Player extends Character implements characterFunction{
         this.attackpotioncount = attackpotion;
     }
 
-
-
     @Override
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
@@ -305,20 +305,19 @@ class Player extends Character implements characterFunction{
 
 
     }
+
     @Override
     public void Attack(Player P , Monster M){
         
         int playerDamage = P.getATK() - M.getDEF();
         if(playerDamage < 0) playerDamage = 0;
 
-
         M.setHP(M.getHP() - playerDamage);
         System.out.println(P.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage" + P.getDEF());
         super.ShowDetails();
-
-
-        
+ 
     }
+
     public void block(Player P , Monster M){
 
         P.setIsBlocking(true);
@@ -333,7 +332,6 @@ class Player extends Character implements characterFunction{
         System.out.println(P.getNAME() + " block " + M.getNAME() + " DEF UP " + playerincreasedef + " (DEF NOW " + P.getDEF() + ")");
         super.ShowDetails();
         P.setDEF(P.originalDef);
-
         
     }
 }
@@ -349,9 +347,17 @@ class Weapon{
         this.ATK = atk;
         this.speed = speed;
     }
-    public int getATK(){return this.ATK;}
-    public int getSpeed(){return this.speed;}
-    public String getName(){return this.name;}
+
+    public int getATK(){
+        return this.ATK;
+    }
+    public int getSpeed(){
+        return this.speed;
+    }
+    public String getName(){
+        return this.name;
+    }
+
 }
 
 class Armor{
@@ -363,8 +369,14 @@ class Armor{
         this.name = name ;
         this.DEF = def;
     }
-    public int getDEF(){return this.DEF;}
-    public String getName(){return this.name;}
+
+    public int getDEF(){
+        return this.DEF;
+    }
+    public String getName(){
+        return this.name;
+    }
+
 }
 
 
@@ -375,7 +387,6 @@ abstract class Potion {
     public Potion(String name) {
         this.name = name;
     }
-
     public String getName() {
         return this.name;
     }
@@ -408,7 +419,6 @@ class Attackpotion extends Potion{
 
     private int Atkboost;
 
-
     public Attackpotion(int Atkboost){
         super("Attack Potion");
         this.Atkboost = Atkboost;
@@ -421,9 +431,6 @@ class Attackpotion extends Potion{
     @Override
     public void use(Player P){
         P.setATK(P.getATK() + this.Atkboost);
-
-
-
     }
 }
 
@@ -436,11 +443,21 @@ class Monster extends Character implements characterFunction{
         super.setHP(1000);
     }
 
-    public int getHP() { return super.getHP();}
-    public int getDEF() { return super.getDEF();}
-    public int getATK() { return super.getATK();}
-    public int getSPD() { return super.getSPD();}
-    public String getName() {return super.getNAME();}
+    public int getHP() { 
+        return super.getHP();
+    }
+    public int getDEF() { 
+        return super.getDEF();
+    }
+    public int getATK() { 
+        return super.getATK();
+    }
+    public int getSPD() { 
+        return super.getSPD();
+    }
+    public String getName() {
+        return super.getNAME();
+    }
 
     @Override
     public void ShowDetails(){
@@ -450,6 +467,7 @@ class Monster extends Character implements characterFunction{
         System.out.println("=====================================");
 
     }
+
     @Override
     public void Attack(Player P , Monster M){
             
@@ -470,7 +488,6 @@ class Monster extends Character implements characterFunction{
         }
         
     }
-
 
 interface characterFunction {
     void Attack(Player player , Monster M);

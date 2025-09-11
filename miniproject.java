@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class miniproject {
     public static void main(String[] args) {
         Scanner kbd = new Scanner(System.in);
@@ -60,7 +59,7 @@ public class miniproject {
             System.out.println("1. Attack");
             System.out.println("2. Block");
             System.out.println("3. Potion (You Potion Current is : " + P.gethealpotioncount() + " ) ");
-            System.out.println("4. Potion (You Potion Current is : " + P.getattackpotioncount() + " ) ");
+            System.out.println("4. ATK Potion (You Potion Current is : " + P.getattackpotioncount() + " ) ");
 
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
@@ -264,15 +263,15 @@ class Player extends Character implements characterFunction{
 
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
-            this.setArmor("Low", 50);
+            this.setArmor("Low", 20);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
-            this.setArmor("Mid", 100);
+            this.setArmor("Mid", 35);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
-            this.setArmor("High", 150);
+            this.setArmor("High", 50);
         }
         else{
             System.out.println("=====================================");
@@ -313,7 +312,7 @@ class Player extends Character implements characterFunction{
         if(playerDamage < 0) playerDamage = 0;
 
         M.setHP(M.getHP() - playerDamage);
-        System.out.println(P.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage" + P.getDEF());
+        System.out.println(P.getNAME() + " attacks " + M.getNAME() + " " + playerDamage + " Damage");
         super.ShowDetails();
  
     }
@@ -330,7 +329,6 @@ class Player extends Character implements characterFunction{
         double playerincreasedef = P.getDEF() * 0.5;
         P.setDEF((int)(P.getDEF() + playerincreasedef));
         System.out.println(P.getNAME() + " block " + M.getNAME() + " DEF UP " + playerincreasedef + " (DEF NOW " + P.getDEF() + ")");
-        super.ShowDetails();
         P.setDEF(P.originalDef);
         
     }

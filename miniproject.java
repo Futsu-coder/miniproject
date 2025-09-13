@@ -126,7 +126,7 @@ abstract class Character{
     private String  NAME;
     private int HP = 100;
     private int DEF = 50;
-    private int ATK = 160;
+    private int ATK = 100;
     private int SPD = 20;
     
     public String getNAME (){
@@ -439,6 +439,7 @@ class Monster extends Character implements characterFunction{
     public Monster() {
         super.setName("Slime");
         super.setHP(1000);
+        super.setATK(130);
     }
 
     public int getHP() { 
